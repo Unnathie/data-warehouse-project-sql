@@ -1,6 +1,6 @@
 /*
 ======================================================================
- Script:     load_silver_procedure.sql
+ Script:     proc_load_silver.sql
  Procedure:  Silver.load_silver
  Author:     Unnathi E Naik
  Date:       2025-11-10
@@ -14,13 +14,25 @@
  to make it analytics-ready for the upcoming Gold layer.
 
  Key Highlights:
- - CRM data cleaning and standardization (names, gender, marital status)
- - Product and sales data validation (nulls, dates, computed fields)
- - ERP data normalization (country codes, IDs, gender formats)
- - Tracks load durations and logs each step for transparency
- - Includes error handling for troubleshooting
+ - Cleans and standardizes CRM data (names, gender, marital status)
+ - Validates product and sales data (dates, price, sales logic)
+ - Normalizes ERP data (country codes, IDs, gender formats)
+ - Tracks execution duration for each table load
+ - Includes error handling and descriptive console output
+
+ Usage:
+ --------------------------------------------------------------
+ To execute this procedure, run the following command:
+ 
+    EXEC Silver.load_silver;
+ 
+ or, if the schema context is not set:
+ 
+    EXEC [Silver].[load_silver];
+ --------------------------------------------------------------
 ======================================================================
 */
+
 CREATE OR ALTER PROCEDURE Silver.load_silver AS
 	BEGIN
 		BEGIN TRY
