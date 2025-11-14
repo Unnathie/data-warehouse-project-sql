@@ -29,14 +29,14 @@ Offers a standardized, category-enriched product master for consistent product a
 | product_number | NVARCHAR(50)  | Business-friendly product code used in CRM.               |
 | product_name   | NVARCHAR(50)  | Standardized product name.                                |
 | category_id    | NVARCHAR(50)  | CRM category ID used to map ERP category metadata.        |
-                                 | (Standardized category ID created by replacing - with _   |
-                                 | in the first part of product key.                         |
+|                |               | (Standardized category ID created by replacing - with _   |
+|                |               | in the first part of product key.                         |
 | category       | NVARCHAR(50)  | Top-level product category from ERP.                      |
 | subcategory    | NVARCHAR(50)  | More specific product classification.                     |
 | maintenance    | NVARCHAR(50)  | Indicates product maintenance/support grouping.           |
 | product_cost   | INT           | Standardized product cost value.                          |
 | product_line   | NVARCHAR(50)  | Cleaned product line where M→Mountain,                    |
-                                 |  R→Road, S→Other Sales, T→Touring, else 'n/a'.            |
+|                |               |  R→Road, S→Other Sales, T→Touring, else 'n/a'.            |
 | start_date     | DATE          | Date when the product became active.                      |
 
 
@@ -52,7 +52,7 @@ Delivers a transaction-level sales fact table linking customers and products for
 | product_key   | INT           | Foreign key linking to dim_products.  |
 | customer_key  | INT           | Foreign key linking to dim_customer.  |
 | order_date    | DATE          | Date validated in Silver:             |
-                                | invalid 0/incorrect length → NULL.    |
+|               |               | invalid 0/incorrect length → NULL.    |
 | shipping_date | DATE          | Date the order was shipped.           |
 | due_date      | DATE          | Expected order delivery date.         |
 | sales_amount  | INT           | Total sale amount for the order line. |
