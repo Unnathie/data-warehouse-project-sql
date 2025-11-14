@@ -3,32 +3,39 @@
 ## gold.dim_customer
 Provides a unified, enriched customer master profile for analytics and reporting.
 
-| Column Name     | Data Type    | Description                                            |
-| --------------- | ------------ | ------------------------------------------------------ |
-| cust_id         | INT          | Unique customer identifier.                            |
-| cust_first_name | NVARCHAR(50) | Customer's first name.                                 |
-| cust_last_name  | NVARCHAR(50) | Customer's last name.                                  |
-| cust_full_name  | NVARCHAR(50) | Combined full name derived during transformation.      |
-| cust_address    | NVARCHAR(50) | Customer's address.                                    |
-| cust_state      | NVARCHAR(50) | State where the customer resides.                      |
-| cust_zip        | NVARCHAR(50) | Zip code of the customer's location.                   |
-| effective_from  | DATE         | Start date the record became valid.                    |
-| effective_to    | DATE         | End date of validity (NULL for active records).        |
-| is_current      | INT          | Indicates active record (1 = current, 0 = historical). |
+| Column Name     | Data Type    | Description                                                                  |
+| --------------- | ------------ | ---------------------------------------------------------------------------- |
+| customer_key    | INT          | Surrogate key assigned in the Gold layer for unique customer identification. |
+| customer_id     | INT          | Original CRM customer ID from source data.                                   |
+| customer_number | NVARCHAR(50) | Business-facing customer code from CRM.                                      |
+| first_name      | NVARCHAR(50) | Cleaned and standardized customer first name.                                |
+| last_name       | NVARCHAR(50) | Cleaned and standardized customer last name.                                 |
+| country         | NVARCHAR(50) | Customer’s country derived from ERP location data.                           |
+| marital_status  | NVARCHAR(50) | Final standardized marital status from CRM.                                  |
+| gender          | NVARCHAR(50) | Standardized gender resolved using CRM first, then ERP when needed.          |
+| birthdate       | DATE         | Customer birthdate from ERP records.                                         |
+| create_date     | DATE         | Original CRM customer creation date.                                         |
+
 
 ---
 
 ## gold.dim_products
 Offers a standardized, category-enriched product master for consistent product analysis.
 
-| Column Name    | Data Type    | Description                                        |
-| -------------- | ------------ | -------------------------------------------------- |
-| prd_key        | INT          | Unique product identifier.                         |
-| prd_name       | NVARCHAR(50) | Product name.                                      |
-| prd_brand      | NVARCHAR(50) | Product brand.                                     |
-| effective_from | DATE         | Start date this product version is valid.          |
-| effective_to   | DATE         | End date of validity (NULL for active products).   |
-| is_current     | INT          | Indicates if current record (1 = active, 0 = old). |
+| Column Name    | Data Type     | Description                                               |
+| -------------- | ------------- | --------------------------------------------------------- |
+| product_key    | INT           | Surrogate key assigned for unique product identification. |
+| product_id     | INT           | Original CRM product ID from source.                      |
+| product_number | NVARCHAR(50)  | Business-friendly product code used in CRM.               |
+| product_name   | NVARCHAR(50)  | Standardized product name.                                |
+| category_id    | NVARCHAR(50)  | CRM category ID used to map ERP category metadata.        |
+| category       | NVARCHAR(50)  | Top-level product category from ERP.                      |
+| subcategory    | NVARCHAR(50)  | More specific product classification.                     |
+| maintenance    | NVARCHAR(50)  | Indicates product maintenance/support grouping.           |
+| product_cost   | DECIMAL(10,2) | Standardized product cost value.                          |
+| product_line   | NVARCHAR(50)  | Product division/line cleaned from CRM.                   |
+| start_date     | DATE          | Date when the product became active.                      |
+
 
 
 ---
@@ -36,18 +43,18 @@ Offers a standardized, category-enriched product master for consistent product a
 ## gold.fact_sales
 Delivers a transaction-level sales fact table linking customers and products for revenue analytics.
 
-| Column Name  | Data Type    | Description                                 |
-| ------------ | ------------ | ------------------------------------------- |
-| ord_num      | INT          | Unique sales order number.                  |
-| prd_key      | INT          | Foreign key to dim_products.                |
-| cust_id      | INT          | Foreign key to dim_customer.                |
-| order_date   | DATE         | Date the order was placed.                  |
-| due_date     | DATE         | Expected delivery date.                     |
-| ship_date    | DATE         | Actual shipping date.                       |
-| sales        | FLOAT        | Total sales amount.                         |
-| quantity     | INT          | Number of units sold.                       |
-| price        | FLOAT        | Unit price of product.                      |
-| order_status | NVARCHAR(50) | Derived order status (On-time, Late, etc.). |
+| Column Name   | Data Type     | Description                           |
+| ------------- | ------------- | ------------------------------------- |
+| order_number  | NVARCHAR(50)  | Unique identifier of the sales order. |
+| product_key   | INT           | Foreign key linking to dim_products.  |
+| customer_key  | INT           | Foreign key linking to dim_customer.  |
+| order_date    | DATE          | Date the order was placed.            |
+| shipping_date | DATE          | Date the order was shipped.           |
+| due_date      | DATE          | Expected order delivery date.         |
+| sales_amount  | DECIMAL(10,2) | Total sale amount for the order line. |
+| quantity      | INT           | Number of units sold.                 |
+| price         | DECIMAL(10,2) | Final unit price after validation.    |
+
 
 ### Grain
 
