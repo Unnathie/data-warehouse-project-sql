@@ -54,8 +54,3 @@ Delivers a transaction-level sales fact table linking customers and products for
 | sales_amount  | DECIMAL(10,2) | Total sale amount for the order line. |
 | quantity      | INT           | Number of units sold.                 |
 | price         | DECIMAL(10,2) | Final unit price after validation.    |
-
-
-### Grain
-
-One row per order line item, enriched with derived metrics like delivery status and linked to both customer and product dimensions.
